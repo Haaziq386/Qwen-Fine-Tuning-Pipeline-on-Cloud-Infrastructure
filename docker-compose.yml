@@ -1,0 +1,35 @@
+services:
+  qwen-serve:
+    build: .
+    image: qwen-finetuned-serve
+    container_name: qwen-inference
+    ports:
+      - "8000:8000"
+    volumes:
+      # --- Persistence notes ---
+      # Both entries below are HOST bind mounts, not anonymous Docker volumes.
+      # This means their contents survive `docker compose down`, container
+      # restarts, and Docker daemon restarts. Only deleting the host directories
+      # removes the data.  (`docker compose down -v` only removes *named* volumes,
+      # not bind mounts, so it is safe to run here.)
+
+      # Model weights — populated once by `python merge_adapter.py` on the host.
+      - ./models/merged:/app/models/merged:ro
+
+      # Request logs — each POST /generate is appended to logs/requests.jsonl
+      # on the HOST so logs survive container restarts and `docker compose down`.
+      - ./logs:/app/logs
+    environment:
+      - MODEL_PATH=/app/models/merged
+      - LOG_PATH=/app/logs/requests.jsonl
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      # Model loading on CPU takes 30-90 seconds — give it plenty of time
+      start_period: 120s
+    restart: unless-stopped
+    # Cap memory to avoid freezing WSL2 / the host machine.
+    # A float32 1.5B model uses ~6 GB; leave headroom for tokenizer and overhead.
+    mem_limit: 8g

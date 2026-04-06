@@ -28,6 +28,7 @@ data/*.json
 # Model outputs (too large for git)
 outputs/
 cache/
+models/
 *.safetensors
 *.bin
 adapter_model.bin
