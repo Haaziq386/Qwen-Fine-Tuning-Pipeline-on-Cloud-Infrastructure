@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+
+# Environment & Secrets
+.env
+*.pem
+*.key
+instance_info.txt
+
+# Data (too large for git)
+data/*.jsonl
+data/*.csv
+data/*.json
+!data_prep/sample_data/
+
+# Model outputs (too large for git)
+outputs/
+cache/
+*.safetensors
+*.bin
+adapter_model.bin
+*.ckpt
+training_output/
+
+# MLflow
+mlruns/
+mlflow.db
+mlflow/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+logs/
