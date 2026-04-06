@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl \
 
 # Install CPU-only PyTorch first (saves ~1.5 GB vs the default CUDA build)
 RUN pip install --no-cache-dir \
-    torch==2.3.0 \
+    torch==2.6.0 \
     --index-url https://download.pytorch.org/whl/cpu
 
 # Install remaining dependencies

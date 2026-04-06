@@ -12,6 +12,7 @@ build/
 .venv/
 venv/
 env/
+myenv/
 
 # Environment & Secrets
 .env
@@ -62,4 +63,3 @@ docker-compose.override.yml
 
 # Logs
 *.log
-logs/

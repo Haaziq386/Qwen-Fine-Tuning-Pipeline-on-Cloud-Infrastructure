@@ -1,3 +1,6 @@
+# Has a hack fix for Windows CPU PyTorch below (marked properly) to avoid crashes.
+# Please remove the hack if running in a different environment.
+
 """
 merge_adapter.py
 ----------------
@@ -59,7 +62,7 @@ def download_adapter(s3_uri: str, local_dir: Path) -> None:
         for obj in page.get("Contents", []):
             key = obj["Key"]
             # Preserve relative path inside the prefix
-            relative = key[len(prefix):].lstrip("/")
+            relative = key[len(prefix) :].lstrip("/")
             if not relative:
                 continue
             dest = local_dir / relative
@@ -77,10 +80,6 @@ def merge_and_save(adapter_dir: Path, output_dir: Path) -> None:
     """
     Load the base model in float32 (no quantization), apply the LoRA adapter,
     merge weights, and save the resulting full model.
-
-    IMPORTANT: merge_and_unload() requires the base model to be in full
-    precision. Never use BitsAndBytesConfig here — the quantization was only
-    needed during training to fit on a small GPU.
     """
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -95,11 +94,30 @@ def merge_and_save(adapter_dir: Path, output_dir: Path) -> None:
         device_map="cpu",
     )
 
+    # hack fix start (only for Windows CPU PyTorch, please remove for other environments)
+    import types
+    import transformers.modeling_utils
+
+    # temporarily mock DTensor for PEFT
+    mocked_tensor = False
+    if hasattr(torch, "distributed") and not hasattr(torch.distributed, "tensor"):
+        torch.distributed.tensor = types.ModuleType("tensor")
+        torch.distributed.tensor.DTensor = type("DTensor", (object,), {})
+        mocked_tensor = True
+
     print(f"\nApplying LoRA adapter from {adapter_dir}")
     peft_model = PeftModel.from_pretrained(base_model, str(adapter_dir))
 
     print("Merging adapter weights into base model...")
     merged_model = peft_model.merge_and_unload()
+
+    # remove the mock so PyTorch's internal save logic doesn't trip over it
+    if mocked_tensor:
+        del torch.distributed.tensor
+
+    # bypass Accelerate's 'unwrap_model' check which crashes on Windows CPU PyTorch
+    transformers.modeling_utils.unwrap_model = lambda model, *args, **kwargs: model
+    # hack fix end
 
     # Free the PEFT wrapper to recover memory before saving
     del peft_model

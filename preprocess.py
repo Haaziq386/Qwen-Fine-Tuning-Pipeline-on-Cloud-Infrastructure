@@ -8,7 +8,7 @@ Supported output formats:
   - ChatML:   {"messages": [{"role": ..., "content": ...}, ...]}
 
 Usage:
-python preprocess.py --input data/raw_data.jsonl --output data/final_data.jsonl --format chatml 
+python preprocess.py --input data/raw_data.jsonl --output data/final_data.jsonl --format chatml
 """
 
 import json

@@ -1,3 +1,8 @@
+"""
+This script registers the fine-tuned Qwen 1.5B LoRA adapter in MLflow's model registry.
+Run using: python register_model.py
+"""
+
 import json
 from pathlib import Path
 from datetime import datetime

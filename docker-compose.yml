@@ -31,5 +31,4 @@ services:
       start_period: 120s
     restart: unless-stopped
     # Cap memory to avoid freezing WSL2 / the host machine.
-    # A float32 1.5B model uses ~6 GB; leave headroom for tokenizer and overhead.
-    mem_limit: 8g
+    mem_limit: 10g

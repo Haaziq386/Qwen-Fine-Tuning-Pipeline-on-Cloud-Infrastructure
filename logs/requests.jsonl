@@ -1,0 +1,13 @@
+{"event": "startup", "model_path": "/app/models/merged", "ts": 1775472563.2840414}
+{"ts": 1775473124.3360689, "prompt_tokens": 37, "generated_tokens": 150, "latency_s": 120.965, "max_new_tokens": 150, "do_sample": false}
+{"ts": 1775476626.7511132, "prompt_tokens": 51, "generated_tokens": 256, "latency_s": 140.576, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775476746.5232558, "prompt_tokens": 39, "generated_tokens": 256, "latency_s": 98.407, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775476863.5049784, "prompt_tokens": 109, "generated_tokens": 256, "latency_s": 95.691, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775476991.457148, "prompt_tokens": 34, "generated_tokens": 256, "latency_s": 106.798, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477122.4454567, "prompt_tokens": 36, "generated_tokens": 256, "latency_s": 109.869, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477250.4225223, "prompt_tokens": 43, "generated_tokens": 256, "latency_s": 106.705, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477418.9645934, "prompt_tokens": 859, "generated_tokens": 256, "latency_s": 147.278, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477552.8725097, "prompt_tokens": 135, "generated_tokens": 256, "latency_s": 112.757, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477681.5872352, "prompt_tokens": 45, "generated_tokens": 256, "latency_s": 107.617, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477811.0983675, "prompt_tokens": 42, "generated_tokens": 256, "latency_s": 108.505, "max_new_tokens": 256, "do_sample": false}
+{"event": "shutdown", "ts": 1775477906.3206682}

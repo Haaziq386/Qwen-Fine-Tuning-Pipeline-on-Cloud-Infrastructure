@@ -1,3 +1,9 @@
+# Script run in Kaggle. Notebook link:
+# https://www.kaggle.com/code/haaziq/cloud-qwen-finetune
+
+# Kaggle cell before this to install dependencies:
+# !pip install -q -U transformers peft trl accelerate bitsandbytes datasets mlflow
+
 import os
 import time
 import torch
@@ -166,12 +172,12 @@ if __name__ == "__main__":
 # import shutil
 # from IPython.display import FileLink
 
-# # 1. Define the name of your output zip file
+# # Define the name of your output zip file
 # output_filename = "all_kaggle_outputs"
 
-# # 2. Create a zip archive of the /kaggle/working directory
+# # Create a zip archive of the /kaggle/working directory
 # # This will save 'all_kaggle_outputs.zip' in your current directory
 # shutil.make_archive(output_filename, 'zip', '/kaggle/working')
 
-# # 3. Create a clickable link to download the file
+# # Create a clickable link to download the file
 # FileLink(f"{output_filename}.zip")

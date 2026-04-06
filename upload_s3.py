@@ -6,7 +6,7 @@ Uploads the local LoRA adapter weights to an AWS S3 bucket.
 Organizes uploads using a timestamp-based versioning system.
 
 Usage:
-    python register_model.py --model-dir ./final_adapter
+    python upload_s3.py --model-dir ./training_output/qwen-lora/final_adapter --model-name qwen-1.5b-finetuned
 """
 
 import os
@@ -24,9 +24,7 @@ console = Console()
 
 def upload_directory_to_s3(local_dir: str, bucket_name: str, s3_prefix: str):
     """Recursively uploads a local directory to an S3 bucket."""
-    s3_client = boto3.client("s3", aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"), 
-                             aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"), 
-                             region_name=os.getenv("AWS_REGION"))
+    s3_client = boto3.client("s3", aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"), aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"), region_name=os.getenv("AWS_REGION"))
 
     local_path = Path(local_dir)
     if not local_path.exists() or not local_path.is_dir():

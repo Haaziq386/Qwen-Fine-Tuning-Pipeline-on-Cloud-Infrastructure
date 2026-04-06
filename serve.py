@@ -71,6 +71,7 @@ app = FastAPI(title="Qwen Fine-Tuned Inference Server", lifespan=lifespan)
 
 # ---------- Request / Response schemas ----------
 
+
 class GenerateRequest(BaseModel):
     prompt: str
     max_new_tokens: int = 256
@@ -85,6 +86,7 @@ class GenerateResponse(BaseModel):
 
 
 # ---------- Endpoints ----------
+
 
 @app.get("/health")
 def health():
@@ -129,14 +131,16 @@ def generate(req: GenerateRequest):
     response_text = _tokenizer.decode(new_tokens, skip_special_tokens=True)
 
     # Persist request log to the host-mounted ./logs/ directory
-    _append_log({
-        "ts": time.time(),
-        "prompt_tokens": prompt_len,
-        "generated_tokens": len(new_tokens),
-        "latency_s": latency,
-        "max_new_tokens": req.max_new_tokens,
-        "do_sample": req.do_sample,
-    })
+    _append_log(
+        {
+            "ts": time.time(),
+            "prompt_tokens": prompt_len,
+            "generated_tokens": len(new_tokens),
+            "latency_s": latency,
+            "max_new_tokens": req.max_new_tokens,
+            "do_sample": req.do_sample,
+        }
+    )
 
     return GenerateResponse(
         response=response_text,

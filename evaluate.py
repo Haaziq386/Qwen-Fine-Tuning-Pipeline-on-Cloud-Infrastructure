@@ -14,6 +14,10 @@ The base model is loaded in-process (sequentially, BEFORE querying the server)
 to avoid holding two 6 GB models in RAM simultaneously.
 
 Results are saved to evaluation_results.json.
+
+Use command:
+python evaluate.py --test-file data/final_data_test.jsonl --max-samples 10 --max-new-tokens 128
+
 """
 
 import argparse
@@ -35,6 +39,7 @@ console = Console()
 
 # ---------- Data loading ----------
 
+
 def load_test_examples(test_file: str, max_samples: int) -> list[dict]:
     """
     Load examples from a ChatML-format JSONL test file.
@@ -44,12 +49,9 @@ def load_test_examples(test_file: str, max_samples: int) -> list[dict]:
     examples = []
     path = Path(test_file)
     if not path.exists():
-        raise FileNotFoundError(
-            f"Test file not found: {test_file}\n"
-            "Run `python preprocess.py` first to generate the test split."
-        )
+        raise FileNotFoundError(f"Test file not found: {test_file}\n" "Run `python preprocess.py` first to generate the test split.")
 
-    with open(path) as f:
+    with open(path, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if not line:
@@ -58,12 +60,8 @@ def load_test_examples(test_file: str, max_samples: int) -> list[dict]:
             messages = record.get("messages", [])
 
             try:
-                instruction = next(
-                    m["content"] for m in messages if m["role"] == "user"
-                )
-                reference = next(
-                    m["content"] for m in reversed(messages) if m["role"] == "assistant"
-                )
+                instruction = next(m["content"] for m in messages if m["role"] == "user")
+                reference = next(m["content"] for m in reversed(messages) if m["role"] == "assistant")
             except StopIteration:
                 continue  # Skip malformed records
 
@@ -75,6 +73,7 @@ def load_test_examples(test_file: str, max_samples: int) -> list[dict]:
 
 
 # ---------- Base model inference (in-process) ----------
+
 
 def run_base_model(examples: list[dict], max_new_tokens: int) -> list[str]:
     """Load the base Qwen model, run inference on all examples, then unload it."""
@@ -123,6 +122,7 @@ def run_base_model(examples: list[dict], max_new_tokens: int) -> list[str]:
 
 # ---------- Fine-tuned model inference (via HTTP) ----------
 
+
 def wait_for_server(serve_url: str, timeout: int = 180) -> None:
     """Poll /health until the inference server is ready."""
     health_url = serve_url.rstrip("/") + "/health"
@@ -138,15 +138,10 @@ def wait_for_server(serve_url: str, timeout: int = 180) -> None:
             pass
         console.print("  Server not ready yet, retrying in 10s...", end="\r")
         time.sleep(10)
-    raise TimeoutError(
-        f"Inference server did not become ready within {timeout}s.\n"
-        "Make sure you ran: docker compose up -d"
-    )
+    raise TimeoutError(f"Inference server did not become ready within {timeout}s.\n" "Make sure you ran: docker compose up -d")
 
 
-def run_finetuned_model(
-    examples: list[dict], serve_url: str, max_new_tokens: int
-) -> list[str]:
+def run_finetuned_model(examples: list[dict], serve_url: str, max_new_tokens: int) -> list[str]:
     """Query the running Docker inference server for all examples."""
     generate_url = serve_url.rstrip("/") + "/generate"
     predictions = []
@@ -172,6 +167,7 @@ def run_finetuned_model(
 
 # ---------- Scoring ----------
 
+
 def compute_rouge(reference: str, prediction: str, scorer_obj) -> dict:
     if not prediction.strip():
         return {"rouge1": 0.0, "rouge2": 0.0, "rougeL": 0.0}
@@ -184,6 +180,7 @@ def compute_rouge(reference: str, prediction: str, scorer_obj) -> dict:
 
 
 # ---------- Output ----------
+
 
 def print_results_table(results: list[dict]) -> None:
     table = Table(title="Evaluation: Base vs Fine-Tuned (ROUGE F1)", show_lines=True)
@@ -214,33 +211,20 @@ def print_summary(results: list[dict]) -> None:
         return sum(r[model][key] for r in results) / len(results)
 
     console.print("\n[bold]Summary (mean over all examples)[/]")
-    console.print(
-        f"  Base model    — ROUGE-1: {avg('rouge1', 'base'):.4f}  "
-        f"ROUGE-2: {avg('rouge2', 'base'):.4f}  "
-        f"ROUGE-L: {avg('rougeL', 'base'):.4f}"
-    )
-    console.print(
-        f"  Fine-tuned    — ROUGE-1: {avg('rouge1', 'finetuned'):.4f}  "
-        f"ROUGE-2: {avg('rouge2', 'finetuned'):.4f}  "
-        f"ROUGE-L: {avg('rougeL', 'finetuned'):.4f}"
-    )
-    delta_r1 = avg('rouge1', 'finetuned') - avg('rouge1', 'base')
-    delta_r2 = avg('rouge2', 'finetuned') - avg('rouge2', 'base')
-    delta_rl = avg('rougeL', 'finetuned') - avg('rougeL', 'base')
+    console.print(f"  Base model    — ROUGE-1: {avg('rouge1', 'base'):.4f}  " f"ROUGE-2: {avg('rouge2', 'base'):.4f}  " f"ROUGE-L: {avg('rougeL', 'base'):.4f}")
+    console.print(f"  Fine-tuned    — ROUGE-1: {avg('rouge1', 'finetuned'):.4f}  " f"ROUGE-2: {avg('rouge2', 'finetuned'):.4f}  " f"ROUGE-L: {avg('rougeL', 'finetuned'):.4f}")
+    delta_r1 = avg("rouge1", "finetuned") - avg("rouge1", "base")
+    delta_r2 = avg("rouge2", "finetuned") - avg("rouge2", "base")
+    delta_rl = avg("rougeL", "finetuned") - avg("rougeL", "base")
     color = "green" if delta_rl >= 0 else "red"
-    console.print(
-        f"  [bold {color}]Delta         — ROUGE-1: {delta_r1:+.4f}  "
-        f"ROUGE-2: {delta_r2:+.4f}  "
-        f"ROUGE-L: {delta_rl:+.4f}[/]"
-    )
+    console.print(f"  [bold {color}]Delta         — ROUGE-1: {delta_r1:+.4f}  " f"ROUGE-2: {delta_r2:+.4f}  " f"ROUGE-L: {delta_rl:+.4f}[/]")
 
 
 # ---------- Main ----------
 
+
 def main():
-    parser = argparse.ArgumentParser(
-        description="Evaluate fine-tuned Qwen model vs base model on test JSONL"
-    )
+    parser = argparse.ArgumentParser(description="Evaluate fine-tuned Qwen model vs base model on test JSONL")
     parser.add_argument(
         "--test-file",
         default="data/final_data_test.jsonl",
@@ -288,18 +272,18 @@ def main():
     console.print("\n[bold cyan]Phase C:[/] Computing ROUGE scores...")
     scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
     results = []
-    for i, (ex, base_pred, ft_pred) in enumerate(
-        zip(examples, base_predictions, ft_predictions), 1
-    ):
-        results.append({
-            "index": i,
-            "instruction": ex["instruction"],
-            "reference": ex["reference"],
-            "base_prediction": base_pred,
-            "finetuned_prediction": ft_pred,
-            "base": compute_rouge(ex["reference"], base_pred, scorer),
-            "finetuned": compute_rouge(ex["reference"], ft_pred, scorer),
-        })
+    for i, (ex, base_pred, ft_pred) in enumerate(zip(examples, base_predictions, ft_predictions), 1):
+        results.append(
+            {
+                "index": i,
+                "instruction": ex["instruction"],
+                "reference": ex["reference"],
+                "base_prediction": base_pred,
+                "finetuned_prediction": ft_pred,
+                "base": compute_rouge(ex["reference"], base_pred, scorer),
+                "finetuned": compute_rouge(ex["reference"], ft_pred, scorer),
+            }
+        )
 
     # Print table and summary
     print_results_table(results)
