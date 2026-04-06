@@ -20,12 +20,6 @@ myenv/
 *.key
 instance_info.txt
 
-# Data (too large for git)
-data/*.jsonl
-data/*.csv
-data/*.json
-!data_prep/sample_data/
-
 # Model outputs (too large for git)
 outputs/
 cache/

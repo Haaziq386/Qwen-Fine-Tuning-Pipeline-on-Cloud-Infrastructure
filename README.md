@@ -14,7 +14,6 @@ Raw Dataset
     │
     ▼
 [2] finetune_training.py ── QLoRA fine-tuning on Qwen2.5-1.5B-Instruct (Kaggle GPU)
-                            https://www.kaggle.com/code/haaziq/cloud-qwen-finetune
     │
     ▼
 [3] upload_s3.py         ── Uploads LoRA adapter to AWS S3
@@ -104,7 +103,7 @@ Key configuration:
 - Training: 3 epochs, batch size 2, gradient accumulation 8, lr=2e-4
 - MLflow tracking enabled
 
-The fine-tuned adapter and MLflow artifacts get downloaded from Kaggle and are saved to `training_outputs/` for the next stage.
+The fine-tuned adapter and MLflow artifacts are downloaded from Kaggle and we save them to `training_outputs/` for the next stage.
 
 ---
 
@@ -114,9 +113,12 @@ The fine-tuned adapter and MLflow artifacts get downloaded from Kaggle and are s
 # Upload the LoRA adapter to S3
 python upload_s3.py --model-dir ./training_output/qwen-lora/final_adapter --model-name qwen-1.5b-finetuned
 
-# Register the uploaded version in MLflow (start MLflow server first)
-mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlflow-artifacts &
+# Register the model in MLflow, after correcting the artifact location in meta.yaml 
+# to point to the local path and after setting other configuration details in register_model.py
 python register_model.py
+
+# Start MLflow UI to view the registered model and training metrics
+mlflow ui --backend-store-uri file:./training_output/mlruns --port 5000
 ```
 
 The adapter is stored at:
@@ -188,6 +190,8 @@ python evaluate.py --test-file data/final_data_test.jsonl --max-samples 10 --max
 ```bash
 docker compose down
 ```
+
+Docker image has been pushed to Docker Hub as: [`roopamtaneja/qwen-finetuned-serve`](https://hub.docker.com/r/roopamtaneja/qwen-finetuned-serve).
 
 ---
 
