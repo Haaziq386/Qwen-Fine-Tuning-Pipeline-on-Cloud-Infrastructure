@@ -1,0 +1,30 @@
+{"event": "startup", "model_path": "/app/models/merged", "ts": 1775472563.2840414}
+{"ts": 1775473124.3360689, "prompt_tokens": 37, "generated_tokens": 150, "latency_s": 120.965, "max_new_tokens": 150, "do_sample": false}
+{"ts": 1775476626.7511132, "prompt_tokens": 51, "generated_tokens": 256, "latency_s": 140.576, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775476746.5232558, "prompt_tokens": 39, "generated_tokens": 256, "latency_s": 98.407, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775476863.5049784, "prompt_tokens": 109, "generated_tokens": 256, "latency_s": 95.691, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775476991.457148, "prompt_tokens": 34, "generated_tokens": 256, "latency_s": 106.798, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477122.4454567, "prompt_tokens": 36, "generated_tokens": 256, "latency_s": 109.869, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477250.4225223, "prompt_tokens": 43, "generated_tokens": 256, "latency_s": 106.705, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477418.9645934, "prompt_tokens": 859, "generated_tokens": 256, "latency_s": 147.278, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477552.8725097, "prompt_tokens": 135, "generated_tokens": 256, "latency_s": 112.757, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477681.5872352, "prompt_tokens": 45, "generated_tokens": 256, "latency_s": 107.617, "max_new_tokens": 256, "do_sample": false}
+{"ts": 1775477811.0983675, "prompt_tokens": 42, "generated_tokens": 256, "latency_s": 108.505, "max_new_tokens": 256, "do_sample": false}
+{"event": "shutdown", "ts": 1775477906.3206682}
+{"event": "startup", "model_path": "/app/models/merged", "ts": 1776518357.345779}
+{"ts": 1776518541.1784449, "prompt_tokens": 35, "generated_tokens": 100, "latency_s": 96.683, "max_new_tokens": 100, "do_sample": false}
+{"ts": 1776518623.3862808, "prompt_tokens": 35, "generated_tokens": 150, "latency_s": 62.491, "max_new_tokens": 150, "do_sample": false}
+{"ts": 1776518699.4139662, "prompt_tokens": 36, "generated_tokens": 100, "latency_s": 43.482, "max_new_tokens": 100, "do_sample": false}
+{"ts": 1776518826.0693705, "prompt_tokens": 34, "generated_tokens": 128, "latency_s": 52.959, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776518987.1954572, "prompt_tokens": 33, "generated_tokens": 128, "latency_s": 53.686, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776519954.5678873, "prompt_tokens": 51, "generated_tokens": 128, "latency_s": 127.521, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776520029.6209986, "prompt_tokens": 39, "generated_tokens": 128, "latency_s": 53.623, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776520107.6587245, "prompt_tokens": 109, "generated_tokens": 128, "latency_s": 56.405, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776520180.7410035, "prompt_tokens": 34, "generated_tokens": 128, "latency_s": 51.54, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776520254.7949238, "prompt_tokens": 36, "generated_tokens": 128, "latency_s": 52.436, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776520328.4982653, "prompt_tokens": 43, "generated_tokens": 128, "latency_s": 53.509, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776520432.4248028, "prompt_tokens": 859, "generated_tokens": 128, "latency_s": 82.22, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776520510.8942182, "prompt_tokens": 135, "generated_tokens": 128, "latency_s": 56.812, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776520585.028764, "prompt_tokens": 45, "generated_tokens": 128, "latency_s": 53.968, "max_new_tokens": 128, "do_sample": false}
+{"ts": 1776520659.5947714, "prompt_tokens": 42, "generated_tokens": 128, "latency_s": 53.069, "max_new_tokens": 128, "do_sample": false}
+{"event": "shutdown", "ts": 1776520738.3801143}

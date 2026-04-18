@@ -1,0 +1,182 @@
+[
+  {
+    "index": 1,
+    "instruction": "Why are all the planets and moons round in shape? What makes them round? Does there exist another shape?",
+    "reference": "Not all planets and moons are round. There is some variety in their shapes depending on their masses, and curiously looking worlds might even exist, unlike anything we know from our system.\n\nEverything within a planet or a moon is under the influence of gravity in such a way that bits of it would move to the center if they could. Under ideal conditions, it would acquire a spherical shape. For objects made of something other than liquids, it varies at what point they become round. It is generally assumed that they mostly become spheres around 400 kilometers/248 miles in diameter when made from icy material commonly found in our Solar System. Still, if something is made from something more rigid, it needs to be larger in diameter than that - around 750 km/466 miles. At a sufficient mass, even rock becomes fluid-like. The moon of Mars Deimos is only 12.6 km/7.8 miles across and is not spherical, and there are many other small moons of other planets that don\u2019t have a round shape.\n\nThis, however, is not all. Astronomical objects spin, giving them the flattened shape of a sphere the faster their rotation if they are massive enough. On top of it, they can have moons. This causes a bulge to form at the position of their orbiting body around them. In the case of Earth, our Moon causes tides via this process. Also, our Sun gives our planet tides. Elsewhere in the Universe, there could be planets with massive moons or two similarly massive planets, called double planets, orbiting their common center of mass, the barycenter, at a close distance, which can cause even stronger bulging. Their shape would be affected this way more visibly.\n\nFinally, a bizarre, toroidal planet, shown above, can be stable from what we know from physics, at least for a while. As I mentioned earlier, even rigid rock behaves like a fluid at large masses. An adequate rotation speed can counterbalance the strength of gravity with centrifugal acceleration, and a torus-shaped planet could exist. A possible scenario for such a world to come to be would be if two sufficiently fast rotating planets collided and formed a doughnut of vaporized rock, a so-called synestia.\n\nWe currently think that the events that would lead to the formation of a world of this shape are so unlikely that there might not be a single toroidal planet in the Visible Universe, but we were quite a few times surprised by what we discovered during our exploration of Cosmos. Perhaps we will even find a doughnut shape world one day.",
+    "base_prediction": "Planets and moons can be roughly spherical because they have been shaped over billions of years through various processes such as gravitational forces from their parent bodies or other celestial objects.\n\nThe process begins with small particles colliding together under gravity to form larger structures like asteroids or comets. As these objects grow bigger, they start rotating around an axis due to angular momentum conservation (a principle that states that if something is spinning faster it will lose energy). This rotation causes friction between different parts of the object's surface which leads to heating up until eventually melting some areas completely away leaving behind smooth surfaces on others - this creates bulges at both poles while creating valleys",
+    "finetuned_prediction": "All the planets of the solar system is not 9 the size of the earth, the moon, and the sun, the other planets are\nMercury, Venus, Saturn, Uranus, Neptune, Pluto, Pluto is the last planet to the right, the only one of the solar system0 the\nis the largest and the most massive of the solar system, the other planets are\nMercury, Venus, Saturn, Uranus, Neptune, Pluto, Pluto is the last planet, the\n is the smallest and the\n is the fastest of the solar system, the\n is the second fastest, the and the 12",
+    "metric": "bertscore",
+    "base": {
+      "precision": 0.154,
+      "recall": -0.1846,
+      "f1": -0.0194
+    },
+    "finetuned": {
+      "precision": 0.0355,
+      "recall": -0.3604,
+      "f1": -0.1685
+    }
+  },
+  {
+    "index": 2,
+    "instruction": "Who is the best soccer player of all time?",
+    "reference": "Pele is the biggest player of all time, he won three World Cup and he's the only player that has this achievement. In his career, he scored more than 1.280 goals in his career and won more than 60 championships playing with Santos Futebol Clube (Brazil), Cosmos (USA) and the Brazilian team.",
+    "base_prediction": "As an AI developed by Alibaba Cloud, I don't have personal opinions or preferences about sports players. However, there has been much debate and discussion among fans over who they consider to be the greatest soccer (football) player ever.\n\nSome people might argue that Lionel Messi from Argentina holds this title due to his exceptional skills on both ends of the field - scoring goals as well as creating opportunities for teammates through passing plays. Others may favor Cristiano Ronaldo from Portugal because he's known for being one of the most prolific scorers in history with 802 career goals across club competitions and international matches combined.\n\nUltimately, it comes down to individual opinion",
+    "finetuned_prediction": " the best soccer player and 019 in the world is\n , the best soccer player to the day the question was asked, is the current world champion, the man of , is the best soccer player,, is the best soccer player,, is the best soccer player,, is the best soccer player,, is the best soccer player,, is the best soccer player,, is the best soccer player,, is the best soccer player,, is the best soccer player,, is the best soccer player,, is the best soccer player,, is the best soccer player,, is the best soccer player",
+    "metric": "bertscore",
+    "base": {
+      "precision": 0.0579,
+      "recall": 0.1672,
+      "f1": 0.1127
+    },
+    "finetuned": {
+      "precision": 0.126,
+      "recall": 0.0425,
+      "f1": 0.0848
+    }
+  },
+  {
+    "index": 3,
+    "instruction": "Did the Bisons have a winning season in 1958?\n\nThe 1958 North Dakota State Bison football team was an American football team that represented North Dakota State University during the 1958 NCAA College Division football season as a member of the North Central Conference. In their second year under head coach Bob Danielson, the team compiled a 3\u20136 record.",
+    "reference": "No, the Bisons had a losing season in 1958, only winning 3 of their 9 games and losing 6.",
+    "base_prediction": "No, the 1958 North Dakota State Bison football team did not win any games (a \"winning\" season would be one with at least 4 wins). They finished with a record of 3-6 for the entire season.",
+    "finetuned_prediction": " the , and is the The ,02 to the ,, and is the\n the, and is the\n the, and is the the,, and is the and is the the,, and is the and is the the,, and is the and is the the,, and is the and is the the,, and is the and is the the,, and is the and is the the,, and is the and is the the,, and is the and is the the,, and is the and is the the,, and is the and is the the,, and is the and",
+    "metric": "bertscore",
+    "base": {
+      "precision": 0.2503,
+      "recall": 0.4715,
+      "f1": 0.3592
+    },
+    "finetuned": {
+      "precision": -0.3912,
+      "recall": -0.2191,
+      "f1": -0.3056
+    }
+  },
+  {
+    "index": 4,
+    "instruction": "How is plastic made?",
+    "reference": "Plastic is made from oil, natural gas and even plant oils during refining of these oils into other products like gasoline. Ethane and propane are created when treated with heat during a refinery process called cracking. This turns the Ethane and propane into ethylene and propylene which are used with other chemical ingredients to create polymers that are the base of what plastic is made out of.",
+    "base_prediction": "Plastic can be produced through various methods depending on the type of polymer used and its intended application.\n\n1. **Polymerization**: This involves combining small molecules called monomers to form long chains that create polymers like polyethylene or polystyrene.\n2. **Injection Molding**: In this process, molten plastic is injected into molds at high pressure until it solidifies completely.\n3. **Compression Moulding**: Here, hot liquid plastic is forced under great pressure onto a mold where it cools down quickly before hardening.\n4. **Thermal Pressing**: The material is heated in an oven-like chamber while",
+    "finetuned_prediction": "Plastic is the name of a family and 10 the number of different types of plastics in the world, the The most common\nplastics are:\n\n\n\n\n  the first generation of plastic is\n, the second generation to the\n the third generation, and, the fourth generation, and, the fifth generation, and, the sixth generation, and, the seventh generation, and, the eighth generation, and, the ninth generation, and, the tenth generation, and, the eleventh generation, and, the twelfth generation, and, the thirteenth generation, and, the fourteenth generation, and,",
+    "metric": "bertscore",
+    "base": {
+      "precision": 0.0224,
+      "recall": 0.2552,
+      "f1": 0.137
+    },
+    "finetuned": {
+      "precision": -0.1474,
+      "recall": 0.0242,
+      "f1": -0.0622
+    }
+  },
+  {
+    "index": 5,
+    "instruction": "What architecture does GPT use?",
+    "reference": "GPT uses the transformer architecture which is a neural network architecture based on the attention mechanism to find global dependencies between the input and the output. To be more specific, GPT belongs to a sub type in the transformer family that is called decoder-only transformer.",
+    "base_prediction": "I'm sorry for any confusion caused, but I am not aware of the specific details about which \"GPT\" you're referring to or what kind of information is being requested regarding its architecture. The term \"GPT\" could refer to different things depending on context.\n\nIf you have more precise information about the particular model or system in question (e.g., whether it's related to language processing like OpenAI\u2019s GPT-3), please provide that detail so I can give you an accurate answer based on my knowledge and capabilities as an AI assistant. Otherwise, without additional specifics, I cannot comment further on architectural aspects relevant to this query",
+    "finetuned_prediction": "GPT is the latest version of the Transformer  and is\n\n the first model in the Transformer family to\n the point of view of\n the encoder, the input is divided by\n the decoder,0 the output, with the result of the decoding the same the input, the output is\n the input, and the input is the output, the input is\n the input, and the output, and the input, and the output, and the input, and the output, and the input, and the output, and the input, and the output, and the input, and the output, and the input, and the output",
+    "metric": "bertscore",
+    "base": {
+      "precision": 0.0301,
+      "recall": 0.2276,
+      "f1": 0.1278
+    },
+    "finetuned": {
+      "precision": 0.1712,
+      "recall": 0.2981,
+      "f1": 0.2345
+    }
+  },
+  {
+    "index": 6,
+    "instruction": "Which US state is best for observing the aurora borealis phenomenon?",
+    "reference": "Alaska is the best US state to see the Northern Lights as it is situated the furthest to the North Pole.",
+    "base_prediction": "The United States has several states that offer excellent opportunities to observe the Aurora Borealis (Northern Lights). Here are some of them:\n\n1. Alaska: This northernmost U.S. state offers one of the most spectacular views due to its proximity to the geomagnetic poles and high latitude.\n\n2. Canada's Yukon Territory: While technically in Canada, this region shares borders with parts of Alaska and can be considered part of North America when planning trips between these countries.\n\n3. Iceland: Known as \"Land of Fire and Ice,\" Iceland experiences frequent Northern Lights displays thanks to its location near the magnetic pole and long dark winter nights.\n\n4",
+    "finetuned_prediction": "  and The Great Lakes of Canada0 the northernmost point in the continental United States, the Aurora Borealis is\n91872 the most northerly point, to be\n5,,,, and,,,, the most southerly point,,,,, and,,,, the most westerly point, and,,,, the\n,,,, the most easterly point, of the continental United States, is the city of Anchorage, Alaska, the capital of the state of Alaska, and the largest\n,,,, the most southerly point",
+    "metric": "bertscore",
+    "base": {
+      "precision": 0.0255,
+      "recall": 0.411,
+      "f1": 0.2123
+    },
+    "finetuned": {
+      "precision": -0.0278,
+      "recall": 0.2732,
+      "f1": 0.1192
+    }
+  },
+  {
+    "index": 7,
+    "instruction": "Please write a summary of the kinds of vehicles that are used for ambulances.\n\nVehicle types\nIn North America (US and Canada), there are four types of ambulances. There are Type I, Type II, Type III, and Type IV. Type I is based upon a heavy truck chassis-cab with a custom rear compartment that is often referred to as a \"box\" or \"module.\" Type I ambulances are primarily used for Advanced Life Support (ALS), also referred to as Mobile Intensive Care Unit (MICU) in some jurisdictions, and rescue work. A Type II ambulance is based on a commercial heavy-duty van with few modifications except for a raised roof and a secondary air conditioning unit for the rear of the vehicle. These types of ambulances are primarily used for Basic Life Support (BLS) and transfer of patients but it is not uncommon to find them used for advanced life support and rescue. Type III is a van chassis-cab but with a custom-made rear compartment and has the same uses as Type I ambulances. Type IV is for smaller ad hoc patient transfer that use smaller utility vehicles in which passenger vehicles and trucks would have difficulty in traversing, such as large industrial complexes, commercial venues, and special events with large crowds; they generally do not fall under Federal Regulations.\n\nAmbulances can be based on many types of vehicle although emergency and disaster conditions may lead to other vehicles serving as makeshift ambulances:\n\nA modern American ambulance built on the chassis of a Ford F-450 truck, with extensive external storage\n\nMany modern Canadian and European ambulances are built on the Mercedes-Benz Sprinter chassis. Some, like this Niagara Region example, use custom rear compartments.\nVan or pickup truck \u2013 A typical general-purpose ambulance is based on either the chassis of a van (vanbulance) or a light-duty truck. This chassis is then modified to the designs and specifications of the purchaser. Vans may either retain their original body and be upfitted inside, or may be based on a chassis without the original body with a modular box body fitted instead. Those based on pickup trucks almost always have modular bodies. Those vehicles intended for especially intensive care or require a large amount of equipment to be carried may be based on medium-duty trucks.\nCar \u2013 Used either as a fly-car for rapid response or to transport patients who can sit, these are standard car models adapted to the requirements of the service using them. Some cars are capable of taking a stretcher with a recumbent patient, but this often requires the removal of the front passenger seat, or the use of a particularly long car. This was often the case with early ambulances, which were converted (or even serving) hearses, as these were some of the few vehicles able to accept a human body in a supine position. Some operators use modular-body transport ambulances based on the chassis of a minivan and station wagon.\nMotorcycle and motor scooter \u2013 In urban areas, these may be used for rapid response in an emergency as they can travel through heavy traffic much faster than a car or van. Trailers or sidecars can make these patient transporting units. See also motorcycle ambulance.\n\nPatient being loaded into a medical helicopter\nBicycle \u2013 Used for response, but usually in pedestrian-only areas where large vehicles find access difficult. Like the motorcycle ambulance, a bicycle may be connected to a trailer for patient transport, most often in the developing world. See also cycle responder.\nAll-terrain vehicle (ATV) \u2013 for example quad bikes; these are used for response off-road, especially at events. ATVs can be modified to carry a stretcher, and are used for tasks such as mountain rescue in inaccessible areas.\n\nGolf Cart converted into an ambulance\nGolf cart or Neighborhood Electric Vehicle \u2013 Used for rapid response at events or on campuses. These function similarly to ATVs, with less rough terrain capability, but with less noise.\nHelicopter \u2013 Usually used for emergency care, either in places inaccessible by road, or in areas where speed is of the essence, as they are able",
+    "reference": "The most common types of vehicle used as an ambulance are cars, vans or pickup trucks. Depending on many factors, such as accessibility to the patient and/or medical services or the urgency of treatment, other types of vehicles are used as well, including: bicycles, all-terrain vehicles, golf carts, helicopters, fixed-wing aircraft, boats, busses, trailers, horse and cart, and fire engines.",
+    "base_prediction": "### Summary: Types of Ambulances Used Worldwide\n\n#### Four Main Types:\n1. **Type I**: Based on a heavy truck chassis-cab with a customized rear compartment known as a \u201cbox\u201d or \u201cmodule.\u201d Primarily used for Advanced Life Support (ALS).\n2. **Type II**: Uses a commercial heavy-duty van with minimal changes\u2014raised roof and additional cooling system\u2014for BLS and sometimes ALS/transfer duties.\n3. **Type III**: Similar to Type I but features a fully customizable rear section designed specifically for various needs including ALS, BLS, and specialized transfers.\n4. **Type IV**: Smaller vans",
+    "finetuned_prediction": "An ambulance is a vehicle the  the purpose of the vehicle, the driver, and the passengers, is, is the delivery of healthcare in the field, the treatment of injuries, and the transportation of critically ill the\n- type the vehicle is\n129 the vehicle is the first time, the driver, and the passengers are\n, are the delivery of healthcare,, is,, is,, is,, is,, is,, is,, is,, is,, is,, is,, is,, is,, is,, is,, is,, is,, is,, is",
+    "metric": "bertscore",
+    "base": {
+      "precision": -0.1103,
+      "recall": 0.1175,
+      "f1": 0.0019
+    },
+    "finetuned": {
+      "precision": 0.002,
+      "recall": 0.0588,
+      "f1": 0.031
+    }
+  },
+  {
+    "index": 8,
+    "instruction": "List the trim levels available for the F-150 Lightning. Separate them with a comma.\n\nFor the 2022 model year, the F-150 Lightning is available in four trim levels: Pro, XLT, Lariat, and Platinum. The Pro trim is only available with the smaller-capacity battery, and the Platinum only offers the higher-capacity battery, although all other trims include the smaller-capacity battery as standard equipment, but also offer the higher-capacity battery as an option.",
+    "reference": "The F-150 Lightning is available in four trim levels: Pro, XLT, Lariat, and Platinum.",
+    "base_prediction": "Pro,XLT,Lariat,Platinum",
+    "finetuned_prediction": " the F, of the F, of the F, of the F, of to the F, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of, of,",
+    "metric": "bertscore",
+    "base": {
+      "precision": 0.3373,
+      "recall": 0.0886,
+      "f1": 0.211
+    },
+    "finetuned": {
+      "precision": -0.5233,
+      "recall": -0.147,
+      "f1": -0.3411
+    }
+  },
+  {
+    "index": 9,
+    "instruction": "What books would you recommend someone read to improve their general knowledge of the world?",
+    "reference": "Here are some books that can help improve one's general knowledge of the world:\n\n*Guns, Germs, and Steel: The Fates of Human Societies Revised by Jared Diamond\n\n* The Blind Watchmaker: Why the Evidence of Evolution Reveals a Universe Without Design by Richard Dawkins\n\n* The Righteous Mind: Why Good People Are Divided by Politics and Religion by Jon Haidt\n\n* The Psychology of Money: Timeless lessons on wealth, greed, and happiness by Housel Morgan\n\n* Complexity: The Emerging Science at the Edge of Order and Chaos by Mitch Waldrop\n\n* Influence: The Psychology of Persuasion by Robert Cialdini \n \n* Thinking, Fast and Slow by Daniel Kahneman\n \n* How the Mind Works by Steven Pinker\n \n* Darwin's Dangerous Idea: Evolution and the Meanings of Life by Daniel Dennett\n \n* Against the Gods: The Remarkable Story of Risk by Peter L. Bernstein\n\n* Moneyball by Michael Lewis\n \n* The Halo Effect: ... and the Eight Other Business Delusions That Deceive by Phil Rosenzweig",
+    "base_prediction": "As an AI language model, I don't have personal preferences or opinions on specific books that may be more suitable for improving one's general knowledge about the world than others.\n\nHowever, there are many great books across various genres and topics that can help expand your understanding of different aspects of our complex world:\n\n1. \"The Human Planet\" - This book provides insights into how human societies interact with each other and nature over time.\n2. \"Sapiens: A Brief History of Humankind\" - Written by Yuval Noah Harari, this book explores humanity from its origins in Africa up until today.\n3. \"Thinking, Fast and",
+    "finetuned_prediction": "  and the best\n0912, the complete works, is a collection of\n, in the form, of\n, of\n, of the most important books of the The Complete Works is a collection, of the\n's most important books, with\n's own commentary, of the\n) was\n's first book, the\n the complete works, is a collection, of the the complete works, is a collection, of the the complete works, is a collection, of the the complete works, is a collection, of the the complete works, is a collection, of the the complete works, is a collection,",
+    "metric": "bertscore",
+    "base": {
+      "precision": 0.1914,
+      "recall": 0.0607,
+      "f1": 0.1261
+    },
+    "finetuned": {
+      "precision": -0.0579,
+      "recall": -0.3333,
+      "f1": -0.198
+    }
+  },
+  {
+    "index": 10,
+    "instruction": "Give me some places to visit with a 8 year old kid",
+    "reference": "Here are some places you can take a 8 year old kid\nZoos\nParks\nBeaches\nAquarium\nMuseums\nShort hiking trails\nAmusement parks\nTrampoline parks\nRestaurants with indoor play area\nArcade\nLazer tag\nLibrary\nBowling\nPaint ball",
+    "base_prediction": "For an eight-year-old child, it's important to choose destinations that offer fun activities and educational experiences without being too overwhelming or dangerous for young children. Here\u2019s a list of great options:\n\n1. **Theme Parks**: Places like Universal Studios (Universal Orlando Resort), Disney World, or Legoland can be fantastic adventures filled with rides, shows, and interactive attractions.\n\n2. **Zoos & Aquariums**: These institutions provide fascinating insights into different animal species in safe environments where kids can learn about conservation efforts while enjoying the sights and sounds.\n\n3. **Nature Reserves**: Visiting national parks such as Yellowstone National Park or Yosemite National",
+    "finetuned_prediction": "The National Museum of Natural History and the National Zoo is the best place in the country, the National Mall is the perfect place,0912, the National Mall is the perfect place, the National Mall is the perfect place, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the National Mall, the",
+    "metric": "bertscore",
+    "base": {
+      "precision": -0.0372,
+      "recall": 0.151,
+      "f1": 0.056
+    },
+    "finetuned": {
+      "precision": -0.1855,
+      "recall": -0.1679,
+      "f1": -0.1758
+    }
+  }
+]
