@@ -2,7 +2,8 @@
 evaluate.py
 -----------
 Compares the fine-tuned Qwen model against the base model on the held-out
-test set, computing ROUGE scores and printing a side-by-side comparison.
+test set, computing BERTScore (default) or ROUGE and printing a side-by-side
+comparison.
 
 Prerequisites:
     1. Run `python merge_adapter.py` to create ./models/merged/
@@ -16,7 +17,7 @@ to avoid holding two 6 GB models in RAM simultaneously.
 Results are saved to evaluation_results.json.
 
 Use command:
-python evaluate.py --test-file data/final_data_test.jsonl --max-samples 10 --max-new-tokens 128
+python evaluate.py --test-file data/final_data_test.jsonl --max-samples 10 --max-new-tokens 128 --metric bertscore --repetition-penalty 1.2
 
 """
 
@@ -75,7 +76,7 @@ def load_test_examples(test_file: str, max_samples: int) -> list[dict]:
 # ---------- Base model inference (in-process) ----------
 
 
-def run_base_model(examples: list[dict], max_new_tokens: int) -> list[str]:
+def run_base_model(examples: list[dict], max_new_tokens: int, repetition_penalty: float) -> list[str]:
     """Load the base Qwen model, run inference on all examples, then unload it."""
     console.print(f"\n[bold cyan]Phase A:[/] Loading base model ({BASE_MODEL_ID}) in-process...")
     console.print("  (This downloads the base model on first run and may take a few minutes)")
@@ -103,6 +104,7 @@ def run_base_model(examples: list[dict], max_new_tokens: int) -> list[str]:
                 **inputs,
                 max_new_tokens=max_new_tokens,
                 do_sample=False,
+                repetition_penalty=repetition_penalty,
                 pad_token_id=tokenizer.eos_token_id,
             )
 
@@ -141,7 +143,7 @@ def wait_for_server(serve_url: str, timeout: int = 180) -> None:
     raise TimeoutError(f"Inference server did not become ready within {timeout}s.\n" "Make sure you ran: docker compose up -d")
 
 
-def run_finetuned_model(examples: list[dict], serve_url: str, max_new_tokens: int) -> list[str]:
+def run_finetuned_model(examples: list[dict], serve_url: str, max_new_tokens: int, repetition_penalty: float) -> list[str]:
     """Query the running Docker inference server for all examples."""
     generate_url = serve_url.rstrip("/") + "/generate"
     predictions = []
@@ -152,6 +154,7 @@ def run_finetuned_model(examples: list[dict], serve_url: str, max_new_tokens: in
             "prompt": ex["instruction"],
             "max_new_tokens": max_new_tokens,
             "do_sample": False,
+            "repetition_penalty": repetition_penalty,
         }
         try:
             r = requests.post(generate_url, json=payload, timeout=300)
@@ -179,40 +182,107 @@ def compute_rouge(reference: str, prediction: str, scorer_obj) -> dict:
     }
 
 
+def compute_bertscore_batch(references: list[str], predictions: list[str], model_type: str) -> list[dict]:
+    try:
+        from bert_score import score as bertscore_score
+    except ImportError as exc:
+        raise ImportError(
+            "BERTScore is not installed. Run: pip install bert-score==0.3.13 "
+            "or pip install -r requirements.txt"
+        ) from exc
+
+    # bert-score has issues with fully empty hypotheses; substitute placeholders and then zero them out.
+    safe_predictions = [p if p.strip() else " " for p in predictions]
+    p_scores, r_scores, f1_scores = bertscore_score(
+        safe_predictions,
+        references,
+        lang="en",
+        model_type=model_type,
+        device="cpu",
+        verbose=False,
+        rescale_with_baseline=True,
+    )
+
+    rows = []
+    for pred, p_val, r_val, f1_val in zip(predictions, p_scores, r_scores, f1_scores):
+        if not pred.strip():
+            rows.append({"precision": 0.0, "recall": 0.0, "f1": 0.0})
+            continue
+        rows.append(
+            {
+                "precision": round(float(p_val), 4),
+                "recall": round(float(r_val), 4),
+                "f1": round(float(f1_val), 4),
+            }
+        )
+    return rows
+
+
 # ---------- Output ----------
 
 
-def print_results_table(results: list[dict]) -> None:
-    table = Table(title="Evaluation: Base vs Fine-Tuned (ROUGE F1)", show_lines=True)
+def print_results_table(results: list[dict], metric: str) -> None:
+    metric_label = "BERTScore" if metric == "bertscore" else "ROUGE"
+    primary_key = "f1" if metric == "bertscore" else "rougeL"
+    secondary_key = "precision" if metric == "bertscore" else "rouge1"
+    secondary_label = "P" if metric == "bertscore" else "R-1"
+
+    table = Table(title=f"Evaluation: Base vs Fine-Tuned ({metric_label})", show_lines=True)
     table.add_column("#", style="dim", width=4)
     table.add_column("Instruction", max_width=30)
-    table.add_column("Base R-L", justify="right")
-    table.add_column("FT R-L", justify="right")
-    table.add_column("Base R-1", justify="right")
-    table.add_column("FT R-1", justify="right")
+    table.add_column("Base Main", justify="right")
+    table.add_column("FT Main", justify="right")
+    table.add_column(f"Base {secondary_label}", justify="right")
+    table.add_column(f"FT {secondary_label}", justify="right")
 
     for r in results[:20]:  # Show first 20 rows to keep output manageable
-        rl_diff = r["finetuned"]["rougeL"] - r["base"]["rougeL"]
-        rl_color = "green" if rl_diff >= 0 else "red"
+        main_diff = r["finetuned"][primary_key] - r["base"][primary_key]
+        main_color = "green" if main_diff >= 0 else "red"
         table.add_row(
             str(r["index"]),
             r["instruction"][:50] + ("..." if len(r["instruction"]) > 50 else ""),
-            f"{r['base']['rougeL']:.3f}",
-            f"[{rl_color}]{r['finetuned']['rougeL']:.3f}[/{rl_color}]",
-            f"{r['base']['rouge1']:.3f}",
-            f"{r['finetuned']['rouge1']:.3f}",
+            f"{r['base'][primary_key]:.3f}",
+            f"[{main_color}]{r['finetuned'][primary_key]:.3f}[/{main_color}]",
+            f"{r['base'][secondary_key]:.3f}",
+            f"{r['finetuned'][secondary_key]:.3f}",
         )
 
     console.print(table)
 
 
-def print_summary(results: list[dict]) -> None:
-    def avg(key, model):
+def print_summary(results: list[dict], metric: str) -> None:
+    def avg(key: str, model: str) -> float:
         return sum(r[model][key] for r in results) / len(results)
 
     console.print("\n[bold]Summary (mean over all examples)[/]")
-    console.print(f"  Base model    — ROUGE-1: {avg('rouge1', 'base'):.4f}  " f"ROUGE-2: {avg('rouge2', 'base'):.4f}  " f"ROUGE-L: {avg('rougeL', 'base'):.4f}")
-    console.print(f"  Fine-tuned    — ROUGE-1: {avg('rouge1', 'finetuned'):.4f}  " f"ROUGE-2: {avg('rouge2', 'finetuned'):.4f}  " f"ROUGE-L: {avg('rougeL', 'finetuned'):.4f}")
+    if metric == "bertscore":
+        console.print(
+            f"  Base model    — BERTScore P: {avg('precision', 'base'):.4f}  "
+            f"R: {avg('recall', 'base'):.4f}  "
+            f"F1: {avg('f1', 'base'):.4f}"
+        )
+        console.print(
+            f"  Fine-tuned    — BERTScore P: {avg('precision', 'finetuned'):.4f}  "
+            f"R: {avg('recall', 'finetuned'):.4f}  "
+            f"F1: {avg('f1', 'finetuned'):.4f}"
+        )
+        delta_p = avg("precision", "finetuned") - avg("precision", "base")
+        delta_r = avg("recall", "finetuned") - avg("recall", "base")
+        delta_f1 = avg("f1", "finetuned") - avg("f1", "base")
+        color = "green" if delta_f1 >= 0 else "red"
+        console.print(f"  [bold {color}]Delta         — BERTScore P: {delta_p:+.4f}  " f"R: {delta_r:+.4f}  " f"F1: {delta_f1:+.4f}[/]")
+        return
+
+    console.print(
+        f"  Base model    — ROUGE-1: {avg('rouge1', 'base'):.4f}  "
+        f"ROUGE-2: {avg('rouge2', 'base'):.4f}  "
+        f"ROUGE-L: {avg('rougeL', 'base'):.4f}"
+    )
+    console.print(
+        f"  Fine-tuned    — ROUGE-1: {avg('rouge1', 'finetuned'):.4f}  "
+        f"ROUGE-2: {avg('rouge2', 'finetuned'):.4f}  "
+        f"ROUGE-L: {avg('rougeL', 'finetuned'):.4f}"
+    )
     delta_r1 = avg("rouge1", "finetuned") - avg("rouge1", "base")
     delta_r2 = avg("rouge2", "finetuned") - avg("rouge2", "base")
     delta_rl = avg("rougeL", "finetuned") - avg("rougeL", "base")
@@ -248,6 +318,23 @@ def main():
         help="Max tokens to generate per example (default: 256)",
     )
     parser.add_argument(
+        "--repetition-penalty",
+        type=float,
+        default=1.2,
+        help="Repetition penalty used for base and fine-tuned generation (default: 1.2)",
+    )
+    parser.add_argument(
+        "--metric",
+        choices=["bertscore", "rouge"],
+        default="bertscore",
+        help="Evaluation metric (default: bertscore)",
+    )
+    parser.add_argument(
+        "--bertscore-model",
+        default="distilroberta-base",
+        help="Hugging Face model for BERTScore when --metric bertscore (default: distilroberta-base)",
+    )
+    parser.add_argument(
         "--output",
         default="evaluation_results.json",
         help="Path to save JSON results (default: evaluation_results.json)",
@@ -262,17 +349,36 @@ def main():
     console.print(f"  Loaded {len(examples)} examples.")
 
     # Phase A: Base model inference (in-process, then unloaded)
-    base_predictions = run_base_model(examples, args.max_new_tokens)
+    base_predictions = run_base_model(examples, args.max_new_tokens, args.repetition_penalty)
 
     # Phase B: Fine-tuned model inference (via Docker HTTP API)
     wait_for_server(args.serve_url)
-    ft_predictions = run_finetuned_model(examples, args.serve_url, args.max_new_tokens)
+    ft_predictions = run_finetuned_model(examples, args.serve_url, args.max_new_tokens, args.repetition_penalty)
 
-    # Phase C: ROUGE scoring
-    console.print("\n[bold cyan]Phase C:[/] Computing ROUGE scores...")
-    scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
+    # Phase C: metric scoring
+    metric_name = args.metric.lower()
+    console.print(f"\n[bold cyan]Phase C:[/] Computing {metric_name.upper()} scores...")
+
+    if metric_name == "bertscore":
+        base_metric_scores = compute_bertscore_batch(
+            [ex["reference"] for ex in examples],
+            base_predictions,
+            args.bertscore_model,
+        )
+        ft_metric_scores = compute_bertscore_batch(
+            [ex["reference"] for ex in examples],
+            ft_predictions,
+            args.bertscore_model,
+        )
+    else:
+        scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
+        base_metric_scores = [compute_rouge(ex["reference"], pred, scorer) for ex, pred in zip(examples, base_predictions)]
+        ft_metric_scores = [compute_rouge(ex["reference"], pred, scorer) for ex, pred in zip(examples, ft_predictions)]
+
     results = []
-    for i, (ex, base_pred, ft_pred) in enumerate(zip(examples, base_predictions, ft_predictions), 1):
+    for i, (ex, base_pred, ft_pred, base_score, ft_score) in enumerate(
+        zip(examples, base_predictions, ft_predictions, base_metric_scores, ft_metric_scores), 1
+    ):
         results.append(
             {
                 "index": i,
@@ -280,14 +386,15 @@ def main():
                 "reference": ex["reference"],
                 "base_prediction": base_pred,
                 "finetuned_prediction": ft_pred,
-                "base": compute_rouge(ex["reference"], base_pred, scorer),
-                "finetuned": compute_rouge(ex["reference"], ft_pred, scorer),
+                "metric": metric_name,
+                "base": base_score,
+                "finetuned": ft_score,
             }
         )
 
     # Print table and summary
-    print_results_table(results)
-    print_summary(results)
+    print_results_table(results, metric_name)
+    print_summary(results, metric_name)
 
     # Save full results
     with open(args.output, "w") as f:

@@ -77,6 +77,7 @@ class GenerateRequest(BaseModel):
     max_new_tokens: int = 256
     temperature: float = 0.1
     do_sample: bool = False
+    repetition_penalty: float = 1.2
 
 
 class GenerateResponse(BaseModel):
@@ -115,6 +116,7 @@ def generate(req: GenerateRequest):
         **inputs,
         max_new_tokens=req.max_new_tokens,
         do_sample=req.do_sample,
+        repetition_penalty=req.repetition_penalty,
         pad_token_id=_tokenizer.eos_token_id,
     )
     # Only pass temperature when sampling; greedy decode ignores it

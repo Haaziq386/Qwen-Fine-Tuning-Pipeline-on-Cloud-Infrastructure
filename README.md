@@ -22,7 +22,7 @@ Raw Dataset
     ▼
 [4] merge_adapter.py     ── Downloads adapter from S3, merges into base model
     serve.py + Docker    ── FastAPI inference server (Docker container)
-    evaluate.py          ── ROUGE evaluation: base model vs fine-tuned model
+    evaluate.py          ── BERTScore/ROUGE evaluation: base model vs fine-tuned model
 ```
 
 **Model:** `Qwen/Qwen2.5-1.5B-Instruct`  
@@ -172,16 +172,19 @@ docker compose logs -f
 
 ### Step 4c — Run evaluation
 
-Compares base model vs fine-tuned model on the test split using ROUGE scores.
+Compares base model vs fine-tuned model on the test split using BERTScore by default (or ROUGE if selected).
 The base model is loaded in-process (then unloaded), and the fine-tuned model is queried via the running Docker server, to avoid holding two 6 GB models in RAM at once.
 
 ```bash
-python evaluate.py --test-file data/final_data_test.jsonl --max-samples 50
+python evaluate.py --test-file data/final_data_test.jsonl --max-samples 50 --metric bertscore --repetition-penalty 1.2
 
 # Results are saved to evaluation_results.json
 
 # For faster evaluation, we can set --max-samples to a smaller number (e.g. 10):
-python evaluate.py --test-file data/final_data_test.jsonl --max-samples 10 --max-new-tokens 128
+python evaluate.py --test-file data/final_data_test.jsonl --max-samples 10 --max-new-tokens 128 --metric bertscore --repetition-penalty 1.2
+
+# If you want the old ROUGE-based scoring:
+python evaluate.py --test-file data/final_data_test.jsonl --max-samples 50 --metric rouge --repetition-penalty 1.2
 
 ```
 
@@ -205,6 +208,7 @@ Docker image has been pushed to Docker Hub as: [`roopamtaneja/qwen-finetuned-ser
 | `max_new_tokens` | int    | 256      | Maximum tokens to generate                             |
 | `temperature`    | float  | 0.1      | Sampling temperature (only used when `do_sample=true`) |
 | `do_sample`      | bool   | false    | Use sampling (false = greedy decode)                   |
+| `repetition_penalty` | float | 1.2   | Penalty for repeated tokens during generation          |
 
 **Response:**
 ```json
